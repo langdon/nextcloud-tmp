@@ -2,21 +2,22 @@ FROM ubi8/php-74
 
 RUN whoami
 RUN id
+RUN ls -l /tmp/
+RUN ls -l /tmp/nextcloud
+RUN ls -l /opt/app-root/src
+RUN pwd
+RUN echo $HOME
 
-USER root
+#USER root
 RUN yum -y install php-gd php-xml \
                    php-mbstring php-intl php-pecl-apcu php-mysqlnd \
                    php-opcache php-json php-zip procps less && \
     yum clean all
 
-USER 1000
+#USER 1000
 # Add application sources
 # for some reason this is being added as root
 ADD ./nextcloud-20.0.2.tar.xz /tmp/
-RUN ls -l /tmp/
-RUN ls -l /tmp/nextcloud
-RUN pwd
-RUN echo $HOME
 
 #USER root
 #RUN chown -R 1001 /tmp/nextcloud
