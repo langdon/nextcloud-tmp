@@ -2,9 +2,10 @@ FROM registry.access.redhat.com/ubi8
 
 USER root
 
-RUN yum install -y http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-linux-repos-8-2.el8.noarch.rpm
+ADD cent*rpm /opt/
+RUN yum install -y /opt/cent*rpm
 
-RUN echo "priority=150" >> /etc/yum.repos.d/CentOS-BaseOS.repo
+RUN echo "priority=150" >> /etc/yum.repos.d/CentOS-Linux-BaseOS.repo
 
 RUN yum -y install mariadb mariadb-server httpd php php-gd php-xml \
                    php-mbstring php-intl php-pecl-apcu php-mysqlnd \
