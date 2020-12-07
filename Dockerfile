@@ -15,6 +15,9 @@ USER 1000
 ADD ./nextcloud-20.0.2.tar.xz /tmp/
 RUN ls -l /tmp/
 RUN ls -l /tmp/nextcloud
+RUN pwd
+RUN echo $HOME
+
 #USER root
 #RUN chown -R 1001 /tmp/nextcloud
 #back to real user
