@@ -9,6 +9,7 @@ RUN yum -y install php-gd php-xml \
 USER default
 # Add application sources
 # for some reason this is being added as root
+# ADD ./nextcloud-20.0.2.tar.xz /tmp/
 ADD https://download.nextcloud.com/server/releases/nextcloud-20.0.2.tar.bz2 /tmp/
 RUN ls -l /tmp/
 USER root
