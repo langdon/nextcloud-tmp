@@ -2,22 +2,23 @@ FROM ubi8/php-74
 
 RUN whoami
 RUN id
+
 USER root
 RUN yum -y install php-gd php-xml \
                    php-mbstring php-intl php-pecl-apcu php-mysqlnd \
                    php-opcache php-json php-zip procps less && \
     yum clean all
 
-USER 1001
+USER 1000
 # Add application sources
 # for some reason this is being added as root
 ADD ./nextcloud-20.0.2.tar.xz /tmp/
 RUN ls -l /tmp/
 RUN ls -l /tmp/nextcloud
-USER root
-RUN chown -R 1001 /tmp/nextcloud
+#USER root
+#RUN chown -R 1001 /tmp/nextcloud
 #back to real user
-USER 1001
+#USER 1001
 # gotta get those pesky .htaccess files
 RUN shopt -s dotglob && mv /tmp/nextcloud/* ./
 
