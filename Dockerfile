@@ -20,6 +20,6 @@ RUN chmod +x /root/initcont.sh && \
     sed -i 's/max_execution_time = 30/max_execution_time = 120/' /etc/php.ini && \
     systemctl enable mariadb httpd
 
-EXPOSE 80
+EXPOSE 8080
 
 CMD [ "/sbin/init" ]
