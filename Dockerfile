@@ -9,14 +9,11 @@ RUN yum -y install php-gd php-xml \
 USER default
 # Add application sources
 # for some reason this is being added as root
-# ADD ./nextcloud-20.0.2.tar.xz /tmp/
-ADD https://download.nextcloud.com/server/releases/nextcloud-20.0.2.tar.bz2 /tmp/
-RUN ls -l /tmp/
+ADD ./nextcloud-20.0.2.tar.xz /tmp/
 USER root
-RUN chown default /tmp/nextcloud-20.0.2.tar.bz2
-USER default
+RUN chown -R default /tmp/nextcloud
 #back to real user
-RUN tar -C /tmp/ -xf /tmp/nextcloud-20.0.2.tar.bz2
+USER default
 # gotta get those pesky .htaccess files
 RUN shopt -s dotglob && mv /tmp/nextcloud/* ./
 
