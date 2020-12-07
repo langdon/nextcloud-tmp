@@ -2,7 +2,7 @@ FROM registry.access.redhat.com/ubi8
 
 USER root
 
-RUN yum install -y http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-linux-release-8.3-1.2011.el8.noarch.rpm
+RUN yum install -y http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-linux-repos-8-2.el8.noarch.rpm
 
 RUN echo "priority=150" >> /etc/yum.repos.d/CentOS-BaseOS.repo
 
