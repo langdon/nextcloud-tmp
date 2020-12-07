@@ -1,26 +1,31 @@
-FROM registry.access.redhat.com/ubi8
+FROM ubi8/php-74
 
 USER root
-
-ADD cent*rpm /opt/
-RUN yum install -y /opt/cent*rpm
-
-RUN echo "priority=150" >> /etc/yum.repos.d/CentOS-Linux-BaseOS.repo
-
-RUN yum -y install mariadb mariadb-server httpd php php-gd php-xml \
+RUN yum -y install php-gd php-xml \
                    php-mbstring php-intl php-pecl-apcu php-mysqlnd \
                    php-opcache php-json php-zip procps less && \
     yum clean all
 
-ADD nextcloud.conf /etc/httpd/conf.d/nextcloud.conf
-ADD initcont.sh /root/initcont.sh
-ADD initmdb.sh /root/initmdb.sh
+USER default
+# Add application sources
+# for some reason this is being added as root
+ADD https://download.nextcloud.com/server/releases/nextcloud-20.0.2.tar.bz2 /tmp/
+RUN ls -l /tmp/
+USER root
+RUN chown default /tmp/nextcloud-20.0.2.tar.bz2
+USER default
+#back to real user
+RUN tar -C /tmp/ -xf /tmp/nextcloud-20.0.2.tar.bz2
+# gotta get those pesky .htaccess files
+RUN shopt -s dotglob && mv /tmp/nextcloud/* ./
 
-RUN chmod +x /root/initcont.sh && \
-    chmod +x /root/initmdb.sh && \
-    sed -i 's/max_execution_time = 30/max_execution_time = 120/' /etc/php.ini && \
-    systemctl enable mariadb httpd
-
-EXPOSE 8080
-
-CMD [ "/sbin/init" ]
+# Run script uses standard ways to configure the PHP application
+# and execs httpd -D FOREGROUND at the end
+# See more in <version>/s2i/bin/run in this repository.
+# Shortly what the run script does: The httpd daemon and php needs to be
+# configured, so this script prepares the configuration based on the container
+# parameters (e.g. available memory) and puts the configuration files into
+# the approriate places.
+# This can obviously be done differently, and in that case, the final CMD
+# should be set to "CMD httpd -D FOREGROUND" instead.
+CMD /usr/libexec/s2i/run
