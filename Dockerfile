@@ -2,6 +2,10 @@ FROM registry.access.redhat.com/ubi8
 
 USER root
 
+RUN yum install -y http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-repos-8.2-2.2004.0.1.el8.x86_64.rpm
+
+RUN echo "priority=150" >> /etc/yum.repos.d/CentOS-BaseOS.repo
+
 RUN yum -y install mariadb mariadb-server httpd php php-gd php-xml \
                    php-mbstring php-intl php-pecl-apcu php-mysqlnd \
                    php-opcache php-json php-zip procps less && \
