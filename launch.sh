@@ -3,7 +3,12 @@
 # we need to do this post image creation so
 # we can bind mount correctly
 # using shopt to get those pesky .htaccess files
-RUN shopt -s dotglob && mv /tmp/nextcloud/* ./
+# gotta make it idempotent
+files=$(shopt -s nullglob dotglob; echo /tmp/nextcloud/*)
+if (( ${#files} ))
+then
+    RUN shopt -s dotglob && mv /tmp/nextcloud/* ./
+fi
 
 # Run script uses standard ways to configure the PHP application
 # and execs httpd -D FOREGROUND at the end
