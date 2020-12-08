@@ -3,7 +3,7 @@ FROM registry.access.redhat.com/ubi8/php-74
 USER root
 RUN yum -y install php-gd php-xml \
     php-mbstring php-intl php-pecl-apcu php-mysqlnd \
-    php-opcache php-json php-zip && \
+    php-opcache php-json php-zip \
     netstat ss telnet procps less && \
     yum clean all
 
