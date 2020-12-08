@@ -11,6 +11,11 @@ USER default
 # for some reason this is being added as root
 ADD ./nextcloud-20.0.2.tar.xz /tmp/
 USER root
+
+#for debugging
+RUN ls -l /tmp/nextcloud || :
+RUN ls -l /opt/app-root/src || :
+
 RUN chown -R default /tmp/nextcloud
 #back to real user
 USER default
