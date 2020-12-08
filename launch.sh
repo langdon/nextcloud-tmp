@@ -4,10 +4,9 @@
 # we can bind mount correctly
 # using shopt to get those pesky .htaccess files
 # gotta make it idempotent
-files=$(shopt -s nullglob dotglob; echo /tmp/nextcloud/*)
-if (( ${#files} ))
+if [ ! -f /opt/app-root/src/config/config.php ]
 then
-    shopt -s dotglob && mv /tmp/nextcloud/* ./
+    shopt -s dotglob && cp /tmp/nextcloud/* ./
 fi
 
 # Run script uses standard ways to configure the PHP application
