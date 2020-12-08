@@ -6,7 +6,7 @@
 # gotta make it idempotent
 if [ ! -f /opt/app-root/src/config/config.php ]
 then
-    shopt -s dotglob && cp /tmp/nextcloud/* ./
+    shopt -s dotglob && cp -vR /tmp/nextcloud/* ./
 fi
 
 # Run script uses standard ways to configure the PHP application
@@ -18,4 +18,4 @@ fi
 # the approriate places.
 # This can obviously be done differently, and in that case, the final CMD
 # should be set to "CMD httpd -D FOREGROUND" instead.
-CMD /usr/libexec/s2i/run
+/usr/libexec/s2i/run
